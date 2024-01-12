@@ -1,0 +1,63 @@
+package org.ekwateur.ekwateurbilling.hexagone.domain.usecase.monthly;
+
+import org.ekwateur.ekwateurbilling.config.TestConfig;
+import org.ekwateur.ekwateurbilling.hexagone.domain.ClientPro;
+import org.ekwateur.ekwateurbilling.hexagone.domain.ClientReference;
+import org.ekwateur.ekwateurbilling.hexagone.domain.strategy.GazCalculatorForPro;
+import org.ekwateur.ekwateurbilling.hexagone.domain.strategy.ParticulierEnergyCalculatorFactory;
+import org.ekwateur.ekwateurbilling.hexagone.domain.strategy.ProEnergyCalculatorFactory;
+import org.ekwateur.ekwateurbilling.hexagone.port.IClientParticulierRepository;
+import org.ekwateur.ekwateurbilling.hexagone.port.IClientProRepository;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ContextConfiguration;
+
+import static org.ekwateur.ekwateurbilling.hexagone.domain.enums.ClientType.PRO;
+import static org.ekwateur.ekwateurbilling.hexagone.domain.enums.EnergyType.GAZ;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+
+@ExtendWith({MockitoExtension.class})
+@ContextConfiguration(classes = TestConfig.class)
+class CalculateMonthBillingForClientImplTest {
+
+    @Mock
+    private IClientProRepository iClientProRepository;
+    @Mock
+    private IClientParticulierRepository iClientParticulierRepository;
+    @Mock
+    private ProEnergyCalculatorFactory proEnergyCalculatorFactory;
+    @Mock
+    private ParticulierEnergyCalculatorFactory energyCalculatorFactory;
+
+    @InjectMocks
+    private CalculateMonthBillingForClientImpl calculateMonthBillingForClientImpl;
+
+    @Nested
+    class HappyPath {
+        @Test
+        void should_calculate_gaz_bill_for_pro() {
+
+            ClientReference clientReference = ClientReference.builder().clientReference("1").build();
+            ClientPro clientPro = new ClientPro(clientReference, "123",
+                    "rs",
+                    100.0,
+                    1000.0);
+
+            when(iClientProRepository.byClientReferenceAndEnergyAndMonth(any(), any(), any()))
+                    .thenReturn(clientPro);
+
+            when(proEnergyCalculatorFactory.getCalculator(any())).thenReturn(new GazCalculatorForPro());
+
+            calculateMonthBillingForClientImpl.execute(clientReference, GAZ, PRO, 2);
+
+            //TODO assert
+        }
+    }
+
+}
