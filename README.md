@@ -19,6 +19,8 @@ Patterns:
 
 Java version : 21 (for the first time with first use of Records)
 
+IDE : JetBrain ultimate edition (using for first time)
+
 TODO :
 - Finishing the test to get the configs from application.propertties
 
