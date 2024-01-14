@@ -5,10 +5,13 @@ import org.ekwateur.ekwateurbilling.controller.port.ICalculateMonthBillForClient
 import org.ekwateur.ekwateurbilling.hexagone.domain.ClientReference;
 import org.ekwateur.ekwateurbilling.hexagone.domain.enums.ClientType;
 import org.ekwateur.ekwateurbilling.hexagone.domain.enums.EnergyType;
+import org.springframework.stereotype.Controller;
 
 /**
  * Optional : to confirm if it will be a REST API
  */
+
+@Controller
 @AllArgsConstructor
 public class BillingController {
 

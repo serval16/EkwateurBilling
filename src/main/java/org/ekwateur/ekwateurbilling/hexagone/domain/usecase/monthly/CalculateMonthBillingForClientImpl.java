@@ -13,7 +13,9 @@ import org.ekwateur.ekwateurbilling.hexagone.domain.strategy.ProEnergyCalculator
 import org.ekwateur.ekwateurbilling.hexagone.domain.strategy.ProEnergyCalculator;
 import org.ekwateur.ekwateurbilling.hexagone.port.IClientParticulierRepository;
 import org.ekwateur.ekwateurbilling.hexagone.port.IClientProRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 @AllArgsConstructor
 public class CalculateMonthBillingForClientImpl implements ICalculateMonthBillForClient {
 
